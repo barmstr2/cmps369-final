@@ -4,7 +4,8 @@
   <title>Edit Contact</title>
 </head>
 <body>
-  <h1>Edit Contact</h1>
+  <% contacts.forEach(function(contact) { %>
+    <h1>Edit Contact: <%= contact.firstName %> <%= contact.lastName %></h1>
   <form method="POST" action="/edit/<%= contact.id %>">
     <input name="firstName" value="<%= contact.firstName %>" required />
     <input name="lastName" value="<%= contact.lastName %>" required />
