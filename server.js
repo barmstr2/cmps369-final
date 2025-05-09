@@ -36,7 +36,7 @@ function ensureAuthenticated(req, res, next) {
 // Routes
 app.get("/", async (req, res) => {
   const contacts = await db.getContacts();
-  res.render("index", { user: req.session.user, contacts });
+  res.render("index", { user: req.session.user, contact });
 });
 
 app.post("/add", async (req, res) => {
