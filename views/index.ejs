@@ -6,20 +6,19 @@
 <body>
   <% contacts.forEach(function(contact) { %>
     <h1>Edit Contact: <%= contact.firstName %> <%= contact.lastName %></h1>
-  <form method="POST" action="/edit/<%= contact.id %>">
-    <input name="firstName" value="<%= contact.firstName %>" required />
-    <input name="lastName" value="<%= contact.lastName %>" required />
-    <input name="address" value="<%= contact.address %>" required />
-    <input name="phone" value="<%= contact.phone %>" />
-    <input name="email" value="<%= contact.email %>" />
-    <input name="prefix" value="<%= contact.prefix %>" />
-    <label><input type="checkbox" name="contactMail" <%= contact.contactMail ? 'checked' : '' %> /> Mail</label>
-    <label><input type="checkbox" name="contactPhone" <%= contact.contactPhone ? 'checked' : '' %> /> Phone</label>
-    <label><input type="checkbox" name="contactEmail" <%= contact.contactEmail ? 'checked' : '' %> /> Email</label>
-    <button type="submit">Save</button>
-  </form>
+    <form method="POST" action="/edit/<%= contact.id %>">
+      <input name="firstName" value="<%= contact.firstName %>" required />
+      <input name="lastName" value="<%= contact.lastName %>" required />
+      <input name="address" value="<%= contact.address %>" required />
+      <input name="phone" value="<%= contact.phone %>" />
+      <input name="email" value="<%= contact.email %>" />
+      <input name="prefix" value="<%= contact.prefix %>" />
+      <label><input type="checkbox" name="contactMail" <%= contact.contactMail ? 'checked' : '' %> /> Mail</label>
+      <label><input type="checkbox" name="contactPhone" <%= contact.contactPhone ? 'checked' : '' %> /> Phone</label>
+      <label><input type="checkbox" name="contactEmail" <%= contact.contactEmail ? 'checked' : '' %> /> Email</label>
+      <button type="submit">Save</button>
+    </form>
+    <a href="/">Back to Home</a>
   <% }) %>
-
-  <a href="/">Back to Home</a>
 </body>
 </html>
