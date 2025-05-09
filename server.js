@@ -35,9 +35,9 @@ function ensureAuthenticated(req, res, next) {
 
 // Routes
 app.get("/", async (req, res) => {
-  const contacts = await db.getContacts();
-  res.render("index", { user: req.session.user, contact });
-});
+    const contacts = await db.getContacts();
+    res.render("index", { user: req.session.user, contacts });
+  });
 
 app.post("/add", async (req, res) => {
   const data = req.body;
@@ -52,7 +52,7 @@ app.post("/add", async (req, res) => {
 
 app.get("/edit/:id", ensureAuthenticated, async (req, res) => {
   const contact = await db.getContactById(req.params.id);
-  res.render("edit", { contact });
+  res.render("edit", { contacts });
 });
 
 app.post("/edit/:id", ensureAuthenticated, async (req, res) => {
