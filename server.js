@@ -1,13 +1,3 @@
-// Directory Structure Assumed:
-// cmps369-final/
-// ├── views/
-// ├── public/
-// ├── db/
-// ├── routes/
-// ├── .env
-// ├── server.js
-// ├── package.json
-
 // server.js
 const express = require("express");
 const app = express();
@@ -17,7 +7,11 @@ const bcrypt = require("bcryptjs");
 const db = require("./db/database");
 const fetch = require("node-fetch");
 require("dotenv").config();
+const NodeGeocoder = require('node-geocoder');
 
+const geocoder = NodeGeocoder({
+  provider: 'openstreetmap'
+});
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
