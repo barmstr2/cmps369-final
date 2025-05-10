@@ -1,0 +1,60 @@
+body {
+    font-family: sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #f9f9f9;
+    color: #333;
+  }
+  
+  h1, h2 {
+    color: #444;
+  }
+  
+  nav {
+    margin-bottom: 20px;
+    background: #eee;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  nav a {
+    margin-right: 10px;
+    text-decoration: none;
+    color: #007BFF;
+  }
+  
+  form {
+    margin-bottom: 20px;
+    padding: 10px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  input[type="text"],
+  input[type="password"],
+  input[type="email"],
+  input[type="number"],
+  input[type="checkbox"] {
+    margin: 5px;
+  }
+  
+  button {
+    background: #007BFF;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background: #0056b3;
+  }
+  
+  #map {
+    margin-top: 30px;
+    border: 1px solid #ccc;
+  }
+  
