@@ -126,6 +126,11 @@ app.get("/register", (req, res) =>
     }
 });
   
+app.get("/contacts", async (req, res) => {
+    const contacts = await db.getContacts();
+    res.render("contacts", { contacts, user: req.session.user });
+  });
+  
 
 // Logout
 app.get("/logout", (req, res) => {
