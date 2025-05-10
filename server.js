@@ -94,32 +94,38 @@ app.post("/delete/:id", ensureAuthenticated, async (req, res) => {
 });
 
 // Login
-app.get("/login", (req, res) => res.render("login", { error: null }));
-
-app.post("/login", async (req, res) => {
-  const { username, password } = req.body;
-  const user = await db.getUserByUsername(username);
-  if (user && bcrypt.compareSync(password, user.passwordHash)) {
-    req.session.user = { id: user.id, username: user.username };
-    return res.redirect("/");
-  }
-  res.render("login", { error: "Invalid username or password." });
-});
+app.get("/login", (req, res) =>
+    res.render("login", { error: null, user: req.session.user })
+  );
+  
+  app.post("/login", async (req, res) => {
+    const { username, password } = req.body;
+    const user = await db.getUserByUsername(username);
+    if (user && bcrypt.compareSync(password, user.passwordHash)) {
+      req.session.user = { id: user.id, username: user.username };
+      return res.redirect("/");
+    }
+    res.render("login", { error: "Invalid username or password.", user: null });
+  });
+  
 
 // Register
-app.get("/register", (req, res) => res.render("register", { error: null }));
-
-app.post("/register", async (req, res) => {
-  const { username, password } = req.body;
-  const passwordHash = bcrypt.hashSync(password, 10);
-  try {
-    await db.addUser({ username, passwordHash });
-    res.redirect("/login");
-  } catch (err) {
-    console.error("Registration error:", err);
-    res.render("register", { error: "Username already taken." });
-  }
+app.get("/register", (req, res) =>
+    res.render("register", { error: null, user: req.session.user })
+  );
+  
+  app.post("/register", async (req, res) => {
+    const { username, password } = req.body;
+    const passwordHash = bcrypt.hashSync(password, 10);
+    try {
+      await db.addUser({ username, passwordHash });
+      res.redirect("/login");
+    } catch (err) {
+      console.error("Registration error:", err);
+      res.render("register", { error: "Username already taken.", user: null });
+    }
 });
+  
 
 // Logout
 app.get("/logout", (req, res) => {
