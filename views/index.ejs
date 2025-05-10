@@ -1,3 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Contact List</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    #map {
+      height: 400px;
+      margin-top: 30px;
+    }
+  </style>
+</head>
 <body>
   <h1>Contact List</h1>
 
@@ -43,4 +55,31 @@
   <% } else { %>
     <p>No contacts yet. Add one to get started.</p>
   <% } %>
+
+  <!-- Map Container -->
+  <div id="map"></div>
+
+  <!-- Leaflet JS + Map Setup -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    const map = L.map('map').setView([0, 0], 2);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    const contacts = <%- JSON.stringify(contacts) %>;
+
+    contacts.forEach(contact => {
+      if (contact.latitude && contact.longitude) {
+        const lat = parseFloat(contact.latitude);
+        const lon = parseFloat(contact.longitude);
+
+        L.marker([lat, lon])
+          .addTo(map)
+          .bindPopup(`<strong>${contact.firstName} ${contact.lastName}</strong><br>${contact.address}`);
+      }
+    });
+  </script>
 </body>
+</html>
