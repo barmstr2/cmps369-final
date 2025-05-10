@@ -34,20 +34,31 @@ app.get("/", async (req, res) => {
 // Add contact with geolocation
 app.post("/add", async (req, res) => {
     const data = req.body;
-    console.log("Form submission:", data); // DEBUG LINE
+  
+    // DEBUG: print what the form submitted
+    console.log("Received contact data:", data);
   
     try {
-      const geo = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(data.address)}`).then(res => res.json());
-      const lat = geo[0]?.lat || null;
-      const lon = geo[0]?.lon || null;
-      await db.addContact({ ...data, latitude: lat, longitude: lon });
-      console.log("Contact saved.");
+      await db.addContact({
+        firstName: data.firstName,
+        lastName: data.lastName,
+        address: data.address,
+        phone: data.phone,
+        email: data.email,
+        prefix: data.prefix,
+        contactMail: data.contactMail ? 1 : 0,
+        contactPhone: data.contactPhone ? 1 : 0,
+        contactEmail: data.contactEmail ? 1 : 0,
+        latitude: null,
+        longitude: null
+      });
+      console.log("Contact saved successfully.");
     } catch (e) {
-      console.error("Error adding contact:", e);
+      console.error("Error saving contact:", e);
     }
   
     res.redirect("/");
-});
+  });
   
   
 
