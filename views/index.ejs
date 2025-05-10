@@ -1,21 +1,24 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Edit Contact</title>
-  <link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet/dist/leaflet.css"
-  />
-  <style>
-    #map {
-      height: 400px;
-      margin-top: 20px;
-    }
-  </style>
-</head>
 <body>
   <h1>Contact List</h1>
 
+  <!-- Add Contact Form -->
+  <h2>Add New Contact</h2>
+  <form method="POST" action="/add">
+    <input name="firstName" placeholder="First Name" required />
+    <input name="lastName" placeholder="Last Name" required />
+    <input name="address" placeholder="Address" required />
+    <input name="phone" placeholder="Phone" />
+    <input name="email" placeholder="Email" />
+    <input name="prefix" placeholder="Prefix (Mr./Ms./Dr.)" />
+    <label><input type="checkbox" name="contactMail" /> Mail</label>
+    <label><input type="checkbox" name="contactPhone" /> Phone</label>
+    <label><input type="checkbox" name="contactEmail" /> Email</label>
+    <button type="submit">Add Contact</button>
+  </form>
+
+  <hr />
+
+  <!-- Contact List -->
   <% if (contacts.length > 0) { %>
     <% contacts.forEach(function(contact) { %>
       <div class="contact-row" data-contact-id="<%= contact.id %>">
@@ -32,11 +35,12 @@
           <label><input type="checkbox" name="contactEmail" <%= contact.contactEmail ? 'checked' : '' %> /> Email</label>
           <button type="submit">Save</button>
         </form>
-        <a href="/">Back to Home</a>
+        <form method="POST" action="/delete/<%= contact.id %>" onsubmit="return confirm('Are you sure you want to delete this contact?');">
+          <button type="submit">Delete</button>
+        </form>
       </div>
     <% }) %>
   <% } else { %>
     <p>No contacts yet. Add one to get started.</p>
   <% } %>
 </body>
-</html>
