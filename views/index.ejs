@@ -1,99 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <title>Home</title>
   <link rel="stylesheet" href="/style.css" />
-
-  <title>Contact List</title>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-  <style>
-    #map {
-      height: 400px;
-      margin-top: 30px;
-    }
-  </style>
 </head>
 <body>
-  <nav style="margin-bottom: 20px;">
+  <nav>
+    <a href="/">Home</a> |
+    <a href="/contacts">Contacts</a> |
     <% if (user) { %>
-      Welcome, <%= user.username %> |
-      <a href="/">Home</a> |
-      <a href="/logout">Logout</a>
+      Welcome, <%= user.username %> | <a href="/logout">Logout</a>
     <% } else { %>
-      <a href="/">Home</a> |
-      <a href="/login">Login</a> |
-      <a href="/register">Register</a>
+      <a href="/login">Login</a> | <a href="/register">Register</a>
     <% } %>
   </nav>
-  
-  <h1>Contact List</h1>
 
-  <!-- Add Contact Form -->
-  <h2>Add New Contact</h2>
-  <form method="POST" action="/add">
-    <input name="firstName" placeholder="First Name" required />
-    <input name="lastName" placeholder="Last Name" required />
-    <input name="address" placeholder="Address" required />
-    <input name="phone" placeholder="Phone" />
-    <input name="email" placeholder="Email" />
-    <input name="prefix" placeholder="Prefix (Mr./Ms./Dr.)" />
-    <label><input type="checkbox" name="contactMail" /> Mail</label>
-    <label><input type="checkbox" name="contactPhone" /> Phone</label>
-    <label><input type="checkbox" name="contactEmail" /> Email</label>
-    <button type="submit">Add Contact</button>
-  </form>
+  <h1>Welcome to the Contact Manager</h1>
 
-  <hr />
-
-  <!-- Contact List -->
-  <% if (contacts.length > 0) { %>
-    <% contacts.forEach(function(contact) { %>
-      <div class="contact-row" data-contact-id="<%= contact.id %>">
-        <h2><%= contact.firstName %> <%= contact.lastName %></h2>
-        <form method="POST" action="/edit/<%= contact.id %>">
-          <input name="firstName" value="<%= contact.firstName %>" required />
-          <input name="lastName" value="<%= contact.lastName %>" required />
-          <input name="address" value="<%= contact.address %>" required />
-          <input name="phone" value="<%= contact.phone %>" />
-          <input name="email" value="<%= contact.email %>" />
-          <input name="prefix" value="<%= contact.prefix %>" />
-          <label><input type="checkbox" name="contactMail" <%= contact.contactMail ? 'checked' : '' %> /> Mail</label>
-          <label><input type="checkbox" name="contactPhone" <%= contact.contactPhone ? 'checked' : '' %> /> Phone</label>
-          <label><input type="checkbox" name="contactEmail" <%= contact.contactEmail ? 'checked' : '' %> /> Email</label>
-          <button type="submit">Save</button>
-        </form>
-        <form method="POST" action="/delete/<%= contact.id %>" onsubmit="return confirm('Are you sure you want to delete this contact?');">
-          <button type="submit">Delete</button>
-        </form>
-      </div>
-    <% }) %>
+  <% if (user) { %>
+    <h2>Add New Contact</h2>
+    <form method="POST" action="/add">
+      <input name="firstName" placeholder="First Name" required />
+      <input name="lastName" placeholder="Last Name" required />
+      <input name="address" placeholder="Address" required />
+      <input name="phone" placeholder="Phone" />
+      <input name="email" placeholder="Email" />
+      <input name="prefix" placeholder="Prefix (Mr./Ms./Dr.)" />
+      <label><input type="checkbox" name="contactMail" /> Mail</label>
+      <label><input type="checkbox" name="contactPhone" /> Phone</label>
+      <label><input type="checkbox" name="contactEmail" /> Email</label>
+      <button type="submit">Add Contact</button>
+    </form>
   <% } else { %>
-    <p>No contacts yet. Add one to get started.</p>
+    <p><a href="/login">Log in</a> to add new contacts.</p>
   <% } %>
-
-  <!-- Map Container -->
-  <div id="map"></div>
-
-  <!-- Leaflet JS + Map Setup -->
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-  <script>
-    const map = L.map('map').setView([0, 0], 2);
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(map);
-
-    const contacts = <%- JSON.stringify(contacts) %>;
-
-    contacts.forEach(contact => {
-      if (contact.latitude && contact.longitude) {
-        const lat = parseFloat(contact.latitude);
-        const lon = parseFloat(contact.longitude);
-
-        L.marker([lat, lon])
-          .addTo(map)
-          .bindPopup(`<strong>${contact.firstName} ${contact.lastName}</strong><br>${contact.address}`);
-      }
-    });
-  </script>
 </body>
 </html>
