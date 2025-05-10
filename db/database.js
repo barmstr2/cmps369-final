@@ -1,6 +1,5 @@
 const sqlite3 = require("sqlite3").verbose();
 const path = require("path");
-const fs = require("fs");
 const bcrypt = require("bcryptjs");
 
 const dbPath = path.join(__dirname, "contacts.db");
@@ -11,7 +10,7 @@ db.serialize(() => {
   db.run(`CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT UNIQUE,
-    password TEXT
+    passwordHash TEXT
   )`);
 
   db.run(`CREATE TABLE IF NOT EXISTS contacts (
@@ -86,7 +85,7 @@ module.exports = {
   }),
 
   addUser: (user) => new Promise((resolve, reject) => {
-    db.run("INSERT INTO users (username, password) VALUES (?, ?)", [user.username, user.password], function (err) {
+    db.run("INSERT INTO users (username, passwordHash) VALUES (?, ?)", [user.username, user.passwordHash], function (err) {
       if (err) reject(err);
       else resolve();
     });
@@ -96,7 +95,7 @@ module.exports = {
     db.get("SELECT * FROM users WHERE username = 'rcnj'", (err, row) => {
       if (!row) {
         const hash = bcrypt.hashSync("password", 10);
-        db.run("INSERT INTO users (username, password) VALUES (?, ?)", ["rcnj", hash]);
+        db.run("INSERT INTO users (username, passwordHash) VALUES (?, ?)", ["rcnj", hash]);
       }
     });
   }
